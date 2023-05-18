@@ -333,7 +333,7 @@ public class User extends javax.swing.JFrame {
         txtphone.setText(dtm.getValueAt(selectIndex, 2).toString());
         txtaddress.setText(dtm.getValueAt(selectIndex, 3).toString());
         txtuname.setText(dtm.getValueAt(selectIndex, 4).toString());
-        txtutype.setSelectedItem(dtm.getValueAt(selectIndex, 6).toString());
+        txtutype.setSelectedItem(dtm.getValueAt(selectIndex, 5).toString());
     }//GEN-LAST:event_jTable1MouseClicked
 
     /**
