@@ -233,6 +233,11 @@ public class User extends javax.swing.JFrame {
         });
 
         jButton2.setText("Edit");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Delete");
 
@@ -323,6 +328,7 @@ public class User extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtutypeActionPerformed
 
+    //When User clicked on one of the list
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
         dtm = (DefaultTableModel)jTable1.getModel();
@@ -334,7 +340,53 @@ public class User extends javax.swing.JFrame {
         txtaddress.setText(dtm.getValueAt(selectIndex, 3).toString());
         txtuname.setText(dtm.getValueAt(selectIndex, 4).toString());
         txtutype.setSelectedItem(dtm.getValueAt(selectIndex, 5).toString());
+        
+        jButton1.setEnabled(false);
     }//GEN-LAST:event_jTable1MouseClicked
+
+    //Edit Button
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        
+    try {    
+        dtm = (DefaultTableModel)jTable1.getModel();
+        int selectIndex = jTable1.getSelectedRow();
+        
+        String id = dtm.getValueAt(selectIndex, 0).toString();
+        
+        String name = txtname.getText();
+        String phone = txtphone.getText();
+        String address = txtaddress.getText();
+        String uname = txtuname.getText();
+        String password = txtpass.getText();
+        String utype = txtutype.getSelectedItem().toString();
+        
+        pst = conn.prepareStatement("update USERINFO set NAME = ?, PHONE = ?, ADDRESS = ?, UNAME = ?, UTYPE = ? where ID = ?");
+        pst.setString(1, name);
+        pst.setString(2, phone);
+        pst.setString(3, address);
+        pst.setString(4, uname);
+        pst.setString(5, utype);
+        pst.setString(6,  id);
+        
+        pst.executeUpdate();
+        JOptionPane.showMessageDialog(this, "User has been edited in the System");
+        jButton1.setEnabled(true);
+        
+        txtname.setText("");
+        txtphone.setText("");
+        txtaddress.setText("");
+        txtuname.setText("");
+        txtpass.setText("");
+        txtutype.setSelectedIndex(-1);
+        txtname.requestFocus();
+        
+        User_Load();
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
