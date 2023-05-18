@@ -19,10 +19,6 @@ import javax.swing.table.DefaultTableModel;
 
 public class User extends javax.swing.JFrame {
 
-    Connection conn = JavaConnect.connectdb();
-    PreparedStatement pst;
-    ResultSet rs;
-    DefaultTableModel dtm;
     
     /**
      * Creates new form User
@@ -36,6 +32,11 @@ public class User extends javax.swing.JFrame {
         
     }
     
+    Connection conn = JavaConnect.connectdb();
+    PreparedStatement pst;
+    ResultSet rs;
+    DefaultTableModel dtm;
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,30 +44,42 @@ public class User extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     
-    public void User_Load() {
-    try {
-        pst = conn.prepareStatement("SELECT * FROM USERINFO");
-        rs = pst.executeQuery();
-
-        ResultSetMetaData rsmd = rs.getMetaData();
-        int columnCount = rsmd.getColumnCount();
-
-        dtm = (DefaultTableModel) jTable1.getModel();
-        dtm.setRowCount(0); // Clear existing rows
-
-        while (rs.next()) {
-            Vector row = new Vector();
-
-            for (int i = 1; i <= columnCount; i++) {
-                row.add(rs.getString(i));
+    public void User_Load() 
+    {
+        int c;
+        try
+        {
+            pst = conn.prepareStatement("select * from USERINFO");
+            rs = pst.executeQuery();
+            
+            ResultSetMetaData rsd = rs.getMetaData();
+            c = rsd.getColumnCount();
+            
+            dtm = (DefaultTableModel)jTable1.getModel();
+            dtm.setRowCount(0);
+            
+            while(rs.next())
+            {
+                Vector v = new Vector();
+                
+                for(int i = 1; i <= c; i++)
+                {
+                    v.add(rs.getString("ID"));
+                    v.add(rs.getString("NAME"));
+                    v.add(rs.getString("PHONE"));
+                    v.add(rs.getString("ADDRESS"));
+                    v.add(rs.getString("UNAME"));
+                    v.add(rs.getString("UTYPE"));
+                }
+                
+                dtm.addRow(v);
             }
-
-            dtm.addRow(row);
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
-    } catch (SQLException ex) {
-        Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
     }
-}
     
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -312,7 +325,15 @@ public class User extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        dtm1 = (DefaultTableModel)jTable1.getModel();
+        dtm = (DefaultTableModel)jTable1.getModel();
+        int selectIndex = jTable1.getSelectedRow();
+        
+        String id = dtm.getValueAt(selectIndex, 0).toString();
+        txtname.setText(dtm.getValueAt(selectIndex, 1).toString());
+        txtphone.setText(dtm.getValueAt(selectIndex, 2).toString());
+        txtaddress.setText(dtm.getValueAt(selectIndex, 3).toString());
+        txtuname.setText(dtm.getValueAt(selectIndex, 4).toString());
+        txtutype.setSelectedItem(dtm.getValueAt(selectIndex, 6).toString());
     }//GEN-LAST:event_jTable1MouseClicked
 
     /**
