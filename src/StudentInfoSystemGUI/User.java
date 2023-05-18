@@ -241,6 +241,11 @@ public class User extends javax.swing.JFrame {
         });
 
         jButton3.setText("Delete");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Clear");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -416,6 +421,39 @@ public class User extends javax.swing.JFrame {
         //Displays users information to the JTable
         User_Load();
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    //Delete Button
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        
+        try {    
+        dtm = (DefaultTableModel)jTable1.getModel();
+        int selectIndex = jTable1.getSelectedRow();
+        
+        String id = dtm.getValueAt(selectIndex, 0).toString();
+        
+        pst = conn.prepareStatement("delete from USERINFO where ID = ?");
+
+        pst.setString(1,  id);
+        
+        pst.executeUpdate();
+        JOptionPane.showMessageDialog(this, "User has been deleted from the System");
+        jButton1.setEnabled(true);
+        
+        txtname.setText("");
+        txtphone.setText("");
+        txtaddress.setText("");
+        txtuname.setText("");
+        txtpass.setText("");
+        txtutype.setSelectedIndex(-1);
+        txtname.requestFocus();
+        
+        User_Load();
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }  
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
