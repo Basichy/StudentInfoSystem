@@ -62,7 +62,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        txtutype.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin\t", "Teacher", "Student", " " }));
+        txtutype.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Teacher", "Student", " " }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -177,12 +177,12 @@ public class Login extends javax.swing.JFrame {
             {
                 int id = rs.getInt("ID");
                 this.setVisible(false);
-                new Main(id, username, utype);
+                new Main(id, username, utype).setVisible(true);
             }
             
             else
             {
-                JOptionPane.showMessageDialog(this, "Incorrect Username or Password");
+                JOptionPane.showMessageDialog(this, "Incorrect Username or Password or User Type");
                 txtuname.setText("");
                 txtpass.setText("");
                 txtutype.setSelectedIndex(-1);
