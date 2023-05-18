@@ -44,9 +44,11 @@ public class User extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     
+    //Loads the Information from the Database to the JTable
     public void User_Load() 
     {
         int c;
+        
         try
         {
             pst = conn.prepareStatement("select * from USERINFO");
@@ -71,7 +73,6 @@ public class User extends javax.swing.JFrame {
                     v.add(rs.getString("UNAME"));
                     v.add(rs.getString("UTYPE"));
                 }
-                
                 dtm.addRow(v);
             }
             
@@ -242,6 +243,11 @@ public class User extends javax.swing.JFrame {
         jButton3.setText("Delete");
 
         jButton4.setText("Clear");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Close");
 
@@ -289,9 +295,10 @@ public class User extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
+    //Save Button
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        
     try {    
         String name = txtname.getText();
         String phone = txtphone.getText();
@@ -318,6 +325,8 @@ public class User extends javax.swing.JFrame {
         txtpass.setText("");
         txtutype.setSelectedIndex(-1);
         txtname.requestFocus();
+        
+        User_Load();
         
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
@@ -387,6 +396,26 @@ public class User extends javax.swing.JFrame {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }        
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    
+    //Clear Button
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        
+        jButton1.setEnabled(true);
+        
+        //Sets the Text Field Box Empty or Default
+        txtname.setText("");
+        txtphone.setText("");
+        txtaddress.setText("");
+        txtuname.setText("");
+        txtpass.setText("");
+        txtutype.setSelectedIndex(-1);
+        txtname.requestFocus();
+        
+        //Displays users information to the JTable
+        User_Load();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
