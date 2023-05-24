@@ -231,6 +231,7 @@ public class Classes extends javax.swing.JFrame {
         txtclassname.setSelectedItem(dtm.getValueAt(selectIndex, 1).toString());
         txtsection.setSelectedItem(dtm.getValueAt(selectIndex, 2).toString());
 
+        Classes_Load();
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
