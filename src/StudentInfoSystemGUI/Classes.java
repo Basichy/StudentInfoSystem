@@ -7,7 +7,9 @@ package StudentInfoSystemGUI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -25,6 +27,7 @@ public class Classes extends javax.swing.JFrame {
     public Classes() {
         initComponents();
         JavaConnect.connectdb();
+        Classes_Load();
     }
     
     Connection conn = JavaConnect.connectdb();
@@ -169,6 +172,7 @@ public class Classes extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     
@@ -200,6 +204,40 @@ public class Classes extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    
+    public void Classes_Load() 
+    {
+        int c;
+        
+        try
+        {
+            pst = conn.prepareStatement("select * from CLASSINFO");
+            rs = pst.executeQuery();
+            
+            ResultSetMetaData rsd = rs.getMetaData();
+            c = rsd.getColumnCount();
+            
+            dtm = (DefaultTableModel)jTable1.getModel();
+            dtm.setRowCount(0);
+            
+            while(rs.next())
+            {
+                Vector v = new Vector();
+                
+                for(int i = 1; i <= c; i++)
+                {
+                    v.add(rs.getString("CLASSID"));
+                    v.add(rs.getString("CLASSNAME"));
+                    v.add(rs.getString("SECTION"));
+                }
+                dtm.addRow(v);
+            }
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * @param args the command line arguments
      */
