@@ -7,7 +7,9 @@ package StudentInfoSystemGUI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -25,12 +27,46 @@ public class Subject extends javax.swing.JFrame {
     public Subject() {
         initComponents();
         JavaConnect.connectdb();
+        Subject_Load();
     }
 
     Connection conn = JavaConnect.connectdb();
     PreparedStatement pst;
     ResultSet rs;
     DefaultTableModel dtm;
+    
+    public void Subject_Load() 
+    {
+        int c;
+        
+        try
+        {
+            pst = conn.prepareStatement("select * from SUBJECTINFO");
+            rs = pst.executeQuery();
+            
+            ResultSetMetaData rsd = rs.getMetaData();
+            c = rsd.getColumnCount();
+            
+            dtm = (DefaultTableModel)jTable1.getModel();
+            dtm.setRowCount(0);
+            
+            while(rs.next())
+            {
+                Vector v = new Vector();
+                
+                for(int i = 1; i <= c; i++)
+                {
+                    v.add(rs.getString("SUBJECTID"));
+                    v.add(rs.getString("SUBJECTNAME"));
+                }
+                dtm.addRow(v);
+            }
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -186,6 +222,8 @@ public class Subject extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Class has been added to the System");
             
             txtsubject.setText("");
+            Subject_Load();
+            txtsubject.requestFocus();
             
             } catch (SQLException ex) {
                 Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);

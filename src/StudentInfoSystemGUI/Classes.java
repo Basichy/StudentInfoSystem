@@ -229,6 +229,8 @@ public class Classes extends javax.swing.JFrame {
 
             Classes_Load();
             
+            txtclassname.requestFocus();
+            
             } catch (SQLException ex) {
                 Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
