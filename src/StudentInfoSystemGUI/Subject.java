@@ -4,6 +4,15 @@
  */
 package StudentInfoSystemGUI;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author ETHAN
@@ -15,8 +24,14 @@ public class Subject extends javax.swing.JFrame {
      */
     public Subject() {
         initComponents();
+        JavaConnect.connectdb();
     }
 
+    Connection conn = JavaConnect.connectdb();
+    PreparedStatement pst;
+    ResultSet rs;
+    DefaultTableModel dtm;
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -151,6 +166,7 @@ public class Subject extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtsubjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtsubjectActionPerformed
@@ -159,6 +175,21 @@ public class Subject extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        try {    
+            String subject = txtsubject.getText();
+
+            pst = conn.prepareStatement("insert into SUBJECTINFO(SUBJECTNAME)values(?)");
+            pst.setString(1, subject);
+            
+            pst.executeUpdate();
+            
+            JOptionPane.showMessageDialog(this, "Class has been added to the System");
+            
+            txtsubject.setText("");
+            
+            } catch (SQLException ex) {
+                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
