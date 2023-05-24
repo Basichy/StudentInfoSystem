@@ -109,6 +109,11 @@ public class Classes extends javax.swing.JFrame {
         });
 
         jButton2.setText("Delete");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Close");
 
@@ -217,6 +222,8 @@ public class Classes extends javax.swing.JFrame {
             txtclassname.setSelectedIndex(-1);
             txtsection.setSelectedIndex(-1);
 
+            Classes_Load();
+            
             } catch (SQLException ex) {
                 Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -231,14 +238,43 @@ public class Classes extends javax.swing.JFrame {
         txtclassname.setSelectedItem(dtm.getValueAt(selectIndex, 1).toString());
         txtsection.setSelectedItem(dtm.getValueAt(selectIndex, 2).toString());
 
-        Classes_Load();
+        jButton1.setEnabled(false);
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         txtclassname.setSelectedIndex(-1);
         txtsection.setSelectedIndex(-1);
+        jButton1.setEnabled(true);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        
+        try {    
+            
+            dtm = (DefaultTableModel)jTable1.getModel();
+            int selectIndex = jTable1.getSelectedRow();
+        
+            String id = dtm.getValueAt(selectIndex, 0).toString();
+
+
+            pst = conn.prepareStatement("delete from CLASSINFO WHERE CLASSID = ?");
+            pst.setString(1, id);
+            
+            pst.executeUpdate();
+            
+            JOptionPane.showMessageDialog(this, "Class has been deleted from the System");
+            
+            txtclassname.setSelectedIndex(-1);
+            txtsection.setSelectedIndex(-1);
+
+            Classes_Load();
+            
+            } catch (SQLException ex) {
+                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     
     public void Classes_Load() 
