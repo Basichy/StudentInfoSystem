@@ -4,6 +4,14 @@
  */
 package StudentInfoSystemGUI;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author ETHAN
@@ -15,8 +23,49 @@ public class Exam extends javax.swing.JFrame {
      */
     public Exam() {
         initComponents();
+        JavaConnect.connectdb();
+        Load_Class();
     }
+    
+    Connection conn = JavaConnect.connectdb();
+    PreparedStatement pst;
+    ResultSet rs;
+    DefaultTableModel dtm;
 
+    public void Load_Class()
+    {
+        try {
+            pst = conn.prepareStatement("SELECT DISTINCT CLASSNAME from CLASSINFO");
+            rs = pst.executeQuery();
+            txtclass.removeAllItems();
+            
+            while(rs.next())
+            {
+                txtclass.addItem(rs.getString("CLASSNAME"));
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Exam.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
