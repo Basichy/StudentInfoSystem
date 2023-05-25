@@ -25,6 +25,9 @@ public class Exam extends javax.swing.JFrame {
         initComponents();
         JavaConnect.connectdb();
         Load_Class();
+        Load_Section();
+        Load_Subject();
+                
     }
     
     Connection conn = JavaConnect.connectdb();
@@ -42,6 +45,42 @@ public class Exam extends javax.swing.JFrame {
             while(rs.next())
             {
                 txtclass.addItem(rs.getString("CLASSNAME"));
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Exam.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    public void Load_Section()
+    {
+        try {
+            pst = conn.prepareStatement("SELECT DISTINCT SECTION from CLASSINFO");
+            rs = pst.executeQuery();
+            txtsection.removeAllItems();
+            
+            while(rs.next())
+            {
+                txtsection.addItem(rs.getString("SECTION"));
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Exam.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    public void Load_Subject()
+    {
+        try {
+            pst = conn.prepareStatement("SELECT DISTINCT SUBJECTNAME from SUBJECTINFO");
+            rs = pst.executeQuery();
+            txtsubject.removeAllItems();
+            
+            while(rs.next())
+            {
+                txtsubject.addItem(rs.getString("SUBJECTNAME"));
             }
             
         } catch (SQLException ex) {
