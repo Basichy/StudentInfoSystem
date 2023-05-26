@@ -278,6 +278,11 @@ public class Exam extends javax.swing.JFrame {
         });
 
         jButton3.setText("Clear");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Close");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -300,6 +305,11 @@ public class Exam extends javax.swing.JFrame {
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -429,6 +439,35 @@ public class Exam extends javax.swing.JFrame {
                 Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        txtename.setText("");
+        txtsemester.setSelectedIndex(-1);
+        txtdate.setCalendar(null);
+        txtclass.setSelectedIndex(-1);
+        txtsection.setSelectedIndex(-1);
+        txtsubject.setSelectedIndex(-1);
+        jButton1.setEnabled(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        dtm = (DefaultTableModel)jTable1.getModel();
+        int selectIndex = jTable1.getSelectedRow();
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String date = dtm.getValueAt(selectIndex, 3).toString();
+        
+        String id = dtm.getValueAt(selectIndex, 0).toString();
+        txtename.setText(dtm.getValueAt(selectIndex, 1).toString());
+        txtsemester.setSelectedItem(dtm.getValueAt(selectIndex, 2).toString());
+        txtclass.setSelectedItem(dtm.getValueAt(selectIndex, 4).toString());
+        txtsection.setSelectedItem(dtm.getValueAt(selectIndex, 5).toString());
+        txtsubject.setSelectedItem(dtm.getValueAt(selectIndex, 6).toString());
+
+        jButton1.setEnabled(false);
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
