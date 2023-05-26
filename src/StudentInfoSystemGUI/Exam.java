@@ -7,8 +7,10 @@ package StudentInfoSystemGUI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -29,6 +31,7 @@ public class Exam extends javax.swing.JFrame {
         Load_Class();
         Load_Section();
         Load_Subject();
+        Exam_Load();
                 
     }
     
@@ -91,7 +94,44 @@ public class Exam extends javax.swing.JFrame {
         
     }
     
-    
+    public void Exam_Load() 
+    {
+        int c;
+        
+        try
+        {
+            pst = conn.prepareStatement("select * from EXAMINFO");
+            rs = pst.executeQuery();
+            
+            ResultSetMetaData rsd = rs.getMetaData();
+            c = rsd.getColumnCount();
+            
+            dtm = (DefaultTableModel)jTable1.getModel();
+            dtm.setRowCount(0);
+            
+            while(rs.next())
+            {
+                Vector v = new Vector();
+                
+                for(int i = 1; i <= c; i++)
+                {
+                    v.add(rs.getString("EXAMID"));
+                    v.add(rs.getString("ENAME"));
+                    v.add(rs.getString("ESEMESTER"));
+                    v.add(rs.getString("EDATE"));
+                    v.add(rs.getString("ECLASS"));
+                    v.add(rs.getString("ESECTION"));
+                    v.add(rs.getString("ESUBJECT"));
+                    
+                }
+                dtm.addRow(v);
+            }
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     
     
@@ -231,21 +271,31 @@ public class Exam extends javax.swing.JFrame {
         });
 
         jButton2.setText("Delete");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Clear");
 
         jButton4.setText("Close");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Exam ID", "Exam Name", "Date", "Class", "Section", "Subject"
+                "Exam ID", "Exam Name", "Semester", "Date", "Class", "Section", "Subject"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -333,13 +383,52 @@ public class Exam extends javax.swing.JFrame {
             pst.executeUpdate();
             JOptionPane.showMessageDialog(this, "Exam has been added to the System");
             
-            
+            Exam_Load();
             
             
             } catch (SQLException ex) {
                 Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        try {    
+            
+            dtm = (DefaultTableModel)jTable1.getModel();
+            int selectIndex = jTable1.getSelectedRow();
+        
+            String id = dtm.getValueAt(selectIndex, 0).toString();
+
+
+            pst = conn.prepareStatement("delete from EXAMINFO WHERE EXAMID = ?");
+            pst.setString(1, id);
+            
+            pst.executeUpdate();
+            
+            JOptionPane.showMessageDialog(this, "Exam has been deleted from the System");
+            
+            txtename.setText("");
+            txtsemester.setSelectedIndex(-1);
+            txtdate.setCalendar(null);
+            txtclass.setSelectedIndex(-1);
+            txtsection.setSelectedIndex(-1);
+            txtsubject.setSelectedIndex(-1);
+            
+
+            Exam_Load();
+            
+            jButton1.setEnabled(true);
+            
+            } catch (SQLException ex) {
+                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
