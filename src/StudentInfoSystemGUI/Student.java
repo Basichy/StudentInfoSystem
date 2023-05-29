@@ -9,7 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -256,6 +258,11 @@ public class Student extends javax.swing.JFrame {
         });
 
         jButton2.setText("Edit");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Delete");
 
@@ -277,6 +284,11 @@ public class Student extends javax.swing.JFrame {
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -376,6 +388,86 @@ public class Student extends javax.swing.JFrame {
     private void txtpnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtpnameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtpnameActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+          
+        dtm = (DefaultTableModel)jTable1.getModel();
+        int selectIndex = jTable1.getSelectedRow();
+        
+        String id = dtm.getValueAt(selectIndex, 0).toString();
+        
+        String sname = txtsname.getText();
+        String pname = txtpname.getText();
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String date = sdf.format(txtdob.getDate());
+        
+        String gender = txtgender.getSelectedItem().toString();
+        
+        String phone = txtpnumber.getText();
+        
+        String address = txtaddress.getText();
+        
+        String classes = txtclass.getSelectedItem().toString();
+        
+        String section = txtsection.getSelectedItem().toString();
+        
+        try {    
+        
+        pst = conn.prepareStatement("update STUDENTINFO set SNAME = ?, PNAME = ?, DOB = ?, GENDER = ?, PNUMBER = ?, ADDRESS = ?, SCLASS = ?, SSECTION = ? where STUDENTID = ?");
+        pst.setString(1, sname);
+        pst.setString(2, pname);
+        pst.setString(3, date);
+        pst.setString(4, gender);
+        pst.setString(5, phone);
+        pst.setString(6,  address);
+        pst.setString(7, classes);
+        pst.setString(8,  section);
+        pst.setString(9,  id);
+        
+        pst.executeUpdate();
+        JOptionPane.showMessageDialog(this, "Student has been edited in the System");
+        jButton1.setEnabled(true);
+        
+        
+        
+        Student_Load();
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }            
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+
+        try {
+        dtm = (DefaultTableModel)jTable1.getModel();
+        int selectIndex = jTable1.getSelectedRow();
+        
+        String id = dtm.getValueAt(selectIndex, 0).toString();
+        txtsname.setText(dtm.getValueAt(selectIndex, 1).toString());
+        txtpname.setText(dtm.getValueAt(selectIndex, 2).toString());
+        
+        Date date = new SimpleDateFormat("dd-MM-yyyy").parse((String)dtm.getValueAt(selectIndex,3));
+        
+        txtdob.setDate(date);
+        
+        txtgender.setSelectedItem(dtm.getValueAt(selectIndex, 4).toString());
+        txtpnumber.setText(dtm.getValueAt(selectIndex, 5).toString());
+        txtaddress.setText(dtm.getValueAt(selectIndex, 6).toString());
+        txtclass.setSelectedItem(dtm.getValueAt(selectIndex, 7).toString());
+        txtsection.setSelectedItem(dtm.getValueAt(selectIndex, 8).toString());
+        
+        
+
+        jButton1.setEnabled(false);
+        }
+        catch (ParseException ex) {
+            Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
