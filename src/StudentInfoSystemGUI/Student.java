@@ -4,6 +4,18 @@
  */
 package StudentInfoSystemGUI;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author ETHAN
@@ -15,8 +27,96 @@ public class Student extends javax.swing.JFrame {
      */
     public Student() {
         initComponents();
+        JavaConnect.connectdb();
+        Load_Class();
+        Load_Section();
+        Student_Load();        
     }
+    
+    Connection conn = JavaConnect.connectdb();
+    PreparedStatement pst;
+    ResultSet rs;
+    DefaultTableModel dtm;
 
+    public void Load_Class()
+    {
+        try {
+            pst = conn.prepareStatement("SELECT DISTINCT CLASSNAME from CLASSINFO");
+            rs = pst.executeQuery();
+            txtclass.removeAllItems();
+            
+            while(rs.next())
+            {
+                txtclass.addItem(rs.getString("CLASSNAME"));
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Exam.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    public void Load_Section()
+    {
+        try {
+            pst = conn.prepareStatement("SELECT DISTINCT SECTION from CLASSINFO");
+            rs = pst.executeQuery();
+            txtsection.removeAllItems();
+            
+            while(rs.next())
+            {
+                txtsection.addItem(rs.getString("SECTION"));
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Exam.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    public void Student_Load() 
+    {
+        int c;
+        
+        try
+        {
+            pst = conn.prepareStatement("select * from STUDENTINFO");
+            rs = pst.executeQuery();
+            
+            ResultSetMetaData rsd = rs.getMetaData();
+            c = rsd.getColumnCount();
+            
+            dtm = (DefaultTableModel)jTable1.getModel();
+            dtm.setRowCount(0);
+            
+            while(rs.next())
+            {
+                Vector v = new Vector();
+                
+                for(int i = 1; i <= c; i++)
+                {
+                    v.add(rs.getString("STUDENTID"));
+                    v.add(rs.getString("SNAME"));
+                    v.add(rs.getString("PNAME"));
+                    v.add(rs.getString("DOB"));
+                    v.add(rs.getString("GENDER"));
+                    v.add(rs.getString("PNUMBER"));
+                    v.add(rs.getString("ADDRESS"));
+                    v.add(rs.getString("SCLASS"));
+                    v.add(rs.getString("SSECTION"));
+                    
+                }
+                dtm.addRow(v);
+            }
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -40,8 +140,8 @@ public class Student extends javax.swing.JFrame {
         txtpname = new javax.swing.JTextField();
         txtdob = new com.toedter.calendar.JDateChooser();
         txtgender = new javax.swing.JComboBox<>();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        txtpnumber = new javax.swing.JTextField();
+        txtaddress = new javax.swing.JTextField();
         txtclass = new javax.swing.JComboBox<>();
         txtsection = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
@@ -83,10 +183,6 @@ public class Student extends javax.swing.JFrame {
 
         txtgender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
 
-        jTextField3.setText("txtpnumber");
-
-        jTextField4.setText("txtaddress");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -108,8 +204,8 @@ public class Student extends javax.swing.JFrame {
                     .addComponent(txtpname)
                     .addComponent(txtdob, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
                     .addComponent(txtgender, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField3)
-                    .addComponent(jTextField4)
+                    .addComponent(txtpnumber)
+                    .addComponent(txtaddress)
                     .addComponent(txtclass, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtsection, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(57, Short.MAX_VALUE))
@@ -136,11 +232,11 @@ public class Student extends javax.swing.JFrame {
                 .addGap(47, 47, 47)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtpnumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtaddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(36, 36, 36)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
@@ -235,6 +331,46 @@ public class Student extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        
+        String sname = txtsname.getText();
+        String pname = txtpname.getText();
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String date = sdf.format(txtdob.getDate());
+        
+        String gender = txtgender.getSelectedItem().toString();
+        
+        String phone = txtpnumber.getText();
+        
+        String address = txtaddress.getText();
+        
+        String classes = txtclass.getSelectedItem().toString();
+        
+        String section = txtsection.getSelectedItem().toString();
+        
+        try
+        {
+            pst = conn.prepareStatement("insert into STUDENTINFO(SNAME,PNAME,DOB,GENDER,PNUMBER,ADDRESS,SCLASS,SSECTION)values(?,?,?,?,?,?,?,?)");
+            pst.setString(1, sname);
+            pst.setString(2, pname);
+            pst.setString(3, date);
+            pst.setString(4, gender);
+            pst.setString(5, phone);
+            pst.setString(6, address);
+            pst.setString(7, classes);
+            pst.setString(8, section);
+            
+            
+            pst.executeUpdate();
+            
+            JOptionPane.showMessageDialog(this, "Student has been added to the System");
+            
+            Student_Load();
+        }
+        catch (SQLException ex) 
+        {
+                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtpnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtpnameActionPerformed
@@ -294,12 +430,12 @@ public class Student extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField txtaddress;
     private javax.swing.JComboBox<String> txtclass;
     private com.toedter.calendar.JDateChooser txtdob;
     private javax.swing.JComboBox<String> txtgender;
     private javax.swing.JTextField txtpname;
+    private javax.swing.JTextField txtpnumber;
     private javax.swing.JComboBox<String> txtsection;
     private javax.swing.JTextField txtsname;
     // End of variables declaration//GEN-END:variables

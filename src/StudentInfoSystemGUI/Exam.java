@@ -55,7 +55,6 @@ public class Exam extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(Exam.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
     
     public void Load_Section()

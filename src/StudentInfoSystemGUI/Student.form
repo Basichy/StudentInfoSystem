@@ -112,8 +112,8 @@
                       <Component id="txtpname" max="32767" attributes="0"/>
                       <Component id="txtdob" pref="171" max="32767" attributes="0"/>
                       <Component id="txtgender" max="32767" attributes="0"/>
-                      <Component id="jTextField3" max="32767" attributes="0"/>
-                      <Component id="jTextField4" alignment="0" max="32767" attributes="0"/>
+                      <Component id="txtpnumber" max="32767" attributes="0"/>
+                      <Component id="txtaddress" alignment="0" max="32767" attributes="0"/>
                       <Component id="txtclass" alignment="0" max="32767" attributes="0"/>
                       <Component id="txtsection" alignment="0" max="32767" attributes="0"/>
                   </Group>
@@ -147,12 +147,12 @@
                   <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtpnumber" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField4" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtaddress" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -232,15 +232,9 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField3">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="txtpnumber"/>
-          </Properties>
+        <Component class="javax.swing.JTextField" name="txtpnumber">
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField4">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="txtaddress"/>
-          </Properties>
+        <Component class="javax.swing.JTextField" name="txtaddress">
         </Component>
         <Component class="javax.swing.JComboBox" name="txtclass">
           <Properties>
