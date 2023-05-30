@@ -265,10 +265,25 @@ public class Student extends javax.swing.JFrame {
         });
 
         jButton3.setText("Delete");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Clear");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Close");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -415,25 +430,23 @@ public class Student extends javax.swing.JFrame {
         
         try {    
         
-        pst = conn.prepareStatement("update STUDENTINFO set SNAME = ?, PNAME = ?, DOB = ?, GENDER = ?, PNUMBER = ?, ADDRESS = ?, SCLASS = ?, SSECTION = ? where STUDENTID = ?");
-        pst.setString(1, sname);
-        pst.setString(2, pname);
-        pst.setString(3, date);
-        pst.setString(4, gender);
-        pst.setString(5, phone);
-        pst.setString(6,  address);
-        pst.setString(7, classes);
-        pst.setString(8,  section);
-        pst.setString(9,  id);
-        
-        pst.executeUpdate();
-        JOptionPane.showMessageDialog(this, "Student has been edited in the System");
-        jButton1.setEnabled(true);
-        
-        
-        
-        Student_Load();
-        
+            pst = conn.prepareStatement("update STUDENTINFO set SNAME = ?, PNAME = ?, DOB = ?, GENDER = ?, PNUMBER = ?, ADDRESS = ?, SCLASS = ?, SSECTION = ? where STUDENTID = ?");
+            pst.setString(1, sname);
+            pst.setString(2, pname);
+            pst.setString(3, date);
+            pst.setString(4, gender);
+            pst.setString(5, phone);
+            pst.setString(6,  address);
+            pst.setString(7, classes);
+            pst.setString(8,  section);
+            pst.setString(9,  id);
+
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Student has been edited in the System");
+            jButton1.setEnabled(true);
+
+            Student_Load();
+
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }            
@@ -468,6 +481,61 @@ public class Student extends javax.swing.JFrame {
             Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        
+        txtsname.setText("");
+        txtpname.setText("");
+        txtdob.setCalendar(null);
+        txtgender.setSelectedItem(-1);
+        txtpnumber.setText("");
+        txtaddress.setText("");
+        txtclass.setSelectedItem(-1);
+        txtsection.setSelectedItem(-1);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        
+        try {    
+            
+            dtm = (DefaultTableModel)jTable1.getModel();
+            int selectIndex = jTable1.getSelectedRow();
+        
+            String id = dtm.getValueAt(selectIndex, 0).toString();
+
+
+            pst = conn.prepareStatement("delete from STUDENTINFO WHERE STUDENTID = ?");
+            pst.setString(1, id);
+            
+            pst.executeUpdate();
+            
+            JOptionPane.showMessageDialog(this, "Student has been deleted from the System");
+            
+            txtsname.setText("");
+            txtpname.setText("");
+            txtdob.setCalendar(null);
+            txtgender.setSelectedItem(-1);
+            txtpnumber.setText("");
+            txtaddress.setText("");
+            txtclass.setSelectedItem(-1);
+            txtsection.setSelectedItem(-1);
+            
+
+            Student_Load();
+            
+            jButton1.setEnabled(true);
+            
+            } catch (SQLException ex) {
+                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
