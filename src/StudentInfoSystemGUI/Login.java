@@ -5,9 +5,11 @@
 package StudentInfoSystemGUI;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -26,6 +28,8 @@ public class Login extends javax.swing.JFrame {
         initComponents();
         
         JavaConnect.connectdb();
+        
+        dbsetup();
     }
     
     /**
@@ -155,6 +159,74 @@ public class Login extends javax.swing.JFrame {
     ResultSet rs;
     DefaultTableModel dtm;
     
+    public void dbsetup(){
+        try{
+            try(Statement statement = conn.createStatement();){
+                String tableName1 = "USERINFO";
+                String tableName2 = "CLASSINFO";
+                String tableName3 = "SUBJECTINFO";
+                String tableName4 = "EXAMINFO";
+                String tableName5 = "STUDENTINFO";
+                String tableName6 = "MARKSINFO";
+                
+                if(!checkTableExisting(tableName1)){
+                    System.out.println("Creating...");
+                    statement.executeUpdate("CREATE TABLE " + tableName1 + "ID INT GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY, NAME VARCHAR(255), PHONE INT, ADDRESS VARCHAR(255), UNAME VARCHAR(255), PASSWORD VARCHAR(255), UTYPE VARCHAR(255))");
+                }
+                
+                if(!checkTableExisting(tableName2)){
+                    System.out.println("Creating...");
+                    statement.executeUpdate("CREATE TABLE " + tableName2 + " (CLASSID INT GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY, CLASSNAME VARCHAR(255), SECTION VARCHAR(255))");
+                }
+                
+                if(!checkTableExisting(tableName3)){
+                    System.out.println("Creating...");
+                    statement.executeUpdate("CREATE TABLE " + tableName3 + " (SUBJECTID INT GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY, SUBJECTNAME VARCHAR(255))");
+                }
+                
+                if(!checkTableExisting(tableName4)){
+                    System.out.println("Creating...");
+                    statement.executeUpdate("CREATE TABLE " + tableName1 + " (EXAMID INT GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY, ENAME VARCHAR(255), ESEMESTER VARCHAR(255), EDATE VARCHAR(255), ECLASS VARCHAR(255), ESECTION VARCHAR(255), ESUBJECT VARCHAR(255))");
+                }
+                
+                if(!checkTableExisting(tableName5)){
+                    System.out.println("Creating...");
+                    statement.executeUpdate("CREATE TABLE " + tableName1 + " (STUDENTID INT GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY, SNAME VARCHAR(255), PNAME VARCHAR(255), DOB VARCHAR(255), GENDER VARCHAR(255), PNUMBER INT, ADDRESS VARCHAR(255), SCLASS VARCHAR(255), SSECTION VARCHAR(255))");
+                }
+                
+                if(!checkTableExisting(tableName6)){
+                    System.out.println("Creating...");
+                    statement.executeUpdate("CREATE TABLE " + tableName1 + " (MARKID INT GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY, MSTUDENTID INT, MSTUDENTNAME VARCHAR(255), MCLASS VARCHAR(255), MSUBJECT VARCHAR(255), MARKS INT, MSEMESTER VARCHAR(255))");
+                }
+            }
+
+        }catch(Throwable e){
+            System.out.println("error");
+        }
+    }
+    
+    private boolean checkTableExisting(String newTableName){
+        boolean flag = false;
+        try{
+            System.out.println("check existing tables...");
+            String[] types = {"TABLE"};
+            DatabaseMetaData dbmd = conn.getMetaData();
+            ResultSet rsDBMeta = dbmd.getTables(null, null, null, null);
+            
+            while(rsDBMeta.next()){
+                String tableName = rsDBMeta.getString("TABLE_NAME");
+                if(tableName.compareToIgnoreCase(newTableName) == 0){
+                    System.out.println(tableName + " is there");
+                    flag = true;
+                }
+            }
+            if(rsDBMeta != null){
+                rsDBMeta.close();
+            }
+        }catch(SQLException ex){ 
+        }
+        return flag;
+    }
 
     
     //Login Button
@@ -193,7 +265,7 @@ public class Login extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Incorrect Username or Password or User Type");
                 txtuname.setText("");
                 txtpass.setText("");
-                txtutype.setSelectedIndex(-1);
+                txtutype.setSelectedIndex(0);
                 txtuname.requestFocus();
             }
             
