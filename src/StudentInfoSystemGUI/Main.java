@@ -147,7 +147,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        jButton7.setText("Teacher");
+        jButton7.setText("Attendance");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
@@ -301,6 +301,8 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
+        Attendance a = new Attendance();
+        a.setVisible(true);
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed

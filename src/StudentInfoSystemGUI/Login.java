@@ -184,7 +184,7 @@ public class Login extends javax.swing.JFrame {
                 }
                 else
                 {
-                    new Student_Main(id, username, utype).setVisible(true);
+                    new Teacher_Main(id, username, utype).setVisible(true);
                 }
             }
             
