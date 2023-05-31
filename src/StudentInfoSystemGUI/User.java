@@ -124,7 +124,7 @@ public class User extends javax.swing.JFrame {
 
         jLabel6.setText("User Type");
 
-        txtutype.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Teacher", "Student" }));
+        txtutype.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Student" }));
         txtutype.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtutypeActionPerformed(evt);

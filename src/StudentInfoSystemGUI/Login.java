@@ -62,7 +62,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        txtutype.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Teacher", "Student", " " }));
+        txtutype.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Student", " " }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -177,7 +177,15 @@ public class Login extends javax.swing.JFrame {
             {
                 int id = rs.getInt("ID");
                 this.setVisible(false);
-                new Main(id, username, utype).setVisible(true);
+                
+                if(utype.equals("Admin"))
+                {
+                    new Main(id, username, utype).setVisible(true);
+                }
+                else
+                {
+                    new Student_Main(id, username, utype).setVisible(true);
+                }
             }
             
             else
