@@ -498,6 +498,7 @@ public class Student extends javax.swing.JFrame {
         txtaddress.setText("");
         txtclass.setSelectedItem(-1);
         txtsection.setSelectedItem(-1);
+        jButton1.setEnabled(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

@@ -450,6 +450,7 @@ public class Exam extends javax.swing.JFrame {
         txtsection.setSelectedIndex(-1);
         txtsubject.setSelectedIndex(-1);
         jButton1.setEnabled(true);
+        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
