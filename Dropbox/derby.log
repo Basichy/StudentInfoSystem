@@ -1,7 +1,7 @@
-Tue May 30 17:01:41 NZST 2023 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
+Wed Jun 07 17:20:50 NZST 2023 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Tue May 30 17:01:41 NZST 2023:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0188-6b08-873f-ffffd2e1dc92 
+Wed Jun 07 17:20:51 NZST 2023:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0188-944c-f245-ffffd2e1dc92 
 on database directory C:\Users\ETHAN\Desktop\StudentInfoSystemGUI\Dropbox\StudentInfoSystem with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
 Loaded from file:/C:/Users/ETHAN/Desktop/db-derby-10.14.2.0-bin/lib/derby.jar
 java.vendor=Oracle Corporation
@@ -12,3 +12,9 @@ os.arch=amd64
 os.version=10.0
 derby.system.home=C:\Users\ETHAN\Desktop\StudentInfoSystemGUI\Dropbox
 Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Wed Jun 07 19:29:30 NZST 2023: Shutting down Derby engine
+----------------------------------------------------------------
+Wed Jun 07 19:29:30 NZST 2023:
+Shutting down instance a816c00e-0188-944c-f245-ffffd2e1dc92 on database directory C:\Users\ETHAN\Desktop\StudentInfoSystemGUI\Dropbox\StudentInfoSystem with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+----------------------------------------------------------------
