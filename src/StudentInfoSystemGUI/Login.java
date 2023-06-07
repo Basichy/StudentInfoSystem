@@ -193,36 +193,42 @@ public class Login extends javax.swing.JFrame {
                 String tableName3 = "SUBJECTINFO";
                 String tableName4 = "EXAMINFO";
                 String tableName5 = "STUDENTINFO";
-                String tableName6 = "MARKSINFO";
+                String tableName6 = "ATTENDANCEINFO";
+                String tableName7 = "MARKSINFO";
                 
                 if(!checkTableExisting(tableName1)){
-                    System.out.println("Creating 1...");
+                    System.out.println("Creating...");
                     statement.executeUpdate("CREATE TABLE " + tableName1 + "(ID INT GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY, NAME VARCHAR(255), PHONE INT, ADDRESS VARCHAR(255), UNAME VARCHAR(255), PASSWORD VARCHAR(255), UTYPE VARCHAR(255))");
                 }
                 
                 if(!checkTableExisting(tableName2)){
-                    System.out.println("Creating 2...");
+                    System.out.println("Creating...");
                     statement.executeUpdate("CREATE TABLE " + tableName2 + " (CLASSID INT GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY, CLASSNAME VARCHAR(255), SECTION VARCHAR(255))");
                 }
                 
                 if(!checkTableExisting(tableName3)){
-                    System.out.println("Creating 3...");
+                    System.out.println("Creating...");
                     statement.executeUpdate("CREATE TABLE " + tableName3 + " (SUBJECTID INT GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY, SUBJECTNAME VARCHAR(255))");
                 }
                 
                 if(!checkTableExisting(tableName4)){
-                    System.out.println("Creating 4...");
+                    System.out.println("Creating...");
                     statement.executeUpdate("CREATE TABLE " + tableName4 + " (EXAMID INT GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY, ENAME VARCHAR(255), ESEMESTER VARCHAR(255), EDATE VARCHAR(255), ECLASS VARCHAR(255), ESECTION VARCHAR(255), ESUBJECT VARCHAR(255))");
                 }
                 
                 if(!checkTableExisting(tableName5)){
-                    System.out.println("Creating 5...");
+                    System.out.println("Creating...");
                     statement.executeUpdate("CREATE TABLE " + tableName5 + " (STUDENTID INT GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY, SNAME VARCHAR(255), PNAME VARCHAR(255), DOB VARCHAR(255), GENDER VARCHAR(255), PNUMBER INT, ADDRESS VARCHAR(255), SCLASS VARCHAR(255), SSECTION VARCHAR(255))");
                 }
                 
                 if(!checkTableExisting(tableName6)){
-                    System.out.println("Creating 6...");
-                    statement.executeUpdate("CREATE TABLE " + tableName6 + " (MARKID INT GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY, MSTUDENTID INT, MSTUDENTNAME VARCHAR(255), MCLASS VARCHAR(255), MSUBJECT VARCHAR(255), MARKS INT, MSEMESTER VARCHAR(255))");
+                    System.out.println("Creating...");
+                    statement.executeUpdate("CREATE TABLE " + tableName6 + " (ATTENDANCEID INT GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY, ASTUDENTID INT, ASTUDENTNAME VARCHAR(255), ADATE VARCHAR(255), ACLASS VARCHAR(255), ASUBJECT VARCHAR(255), ACOOMENT VARCHAR(255))");
+                }
+                
+                if(!checkTableExisting(tableName7)){
+                    System.out.println("Creating...");
+                    statement.executeUpdate("CREATE TABLE " + tableName7 + " (MARKID INT GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY, MSTUDENTID INT, MSTUDENTNAME VARCHAR(255), MCLASS VARCHAR(255), MSUBJECT VARCHAR(255), MARKS INT, MSEMESTER VARCHAR(255))");
                 }
             }
 
