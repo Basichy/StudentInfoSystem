@@ -17,6 +17,7 @@ public class JavaConnect {
         Connection conn = null;
         try {
             conn = DriverManager.getConnection("jdbc:derby:StudentInfoSystem;create=true");
+
             return conn;
         } catch (SQLException ex) {
             Logger.getLogger(JavaConnect.class.getName()).log(Level.SEVERE, null, ex);
