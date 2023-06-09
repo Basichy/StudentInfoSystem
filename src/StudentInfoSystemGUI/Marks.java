@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package StudentInfoSystemGUI;
 
 import java.sql.Connection;
@@ -9,9 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,16 +13,16 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author ETHAN
+ * @author EthanGaylan 21150437
  */
-public class Marks extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Marks
-     */
-    public Marks() {
+public class Marks extends javax.swing.JFrame 
+{
+    public Marks() 
+    {
         initComponents();
         JavaConnect.connectdb();
+        Load_Class();
         Load_Subject();
         Marks_Load();
     }
@@ -39,24 +32,48 @@ public class Marks extends javax.swing.JFrame {
     ResultSet rs;
     DefaultTableModel dtm;
     
-    public void Load_Subject()
+    // Loads available classes from the database and populates the class selection combo box
+    public void Load_Class()
     {
-        try {
-            pst = conn.prepareStatement("SELECT DISTINCT SUBJECTNAME from SUBJECTINFO");
+        try 
+        {
+            pst = conn.prepareStatement("select distinct CLASSNAME from CLASSINFO");
             rs = pst.executeQuery();
             txtclass.removeAllItems();
+            
+            while(rs.next())
+            {
+                txtclass.addItem(rs.getString("CLASSNAME"));
+            }          
+        } 
+        catch (SQLException ex)
+        {
+            Logger.getLogger(Exam.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    // Loads available subjects from the database and populates the subject selection combo box
+    public void Load_Subject()
+    {
+        try 
+        {
+            pst = conn.prepareStatement("SELECT DISTINCT SUBJECTNAME from SUBJECTINFO");
+            rs = pst.executeQuery();
+            txtsubject.removeAllItems();
             
             while(rs.next())
             {
                 txtsubject.addItem(rs.getString("SUBJECTNAME"));
             }
             
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) 
+        {
             Logger.getLogger(Exam.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
     
+    // Retrieves marks information from the MARKSINFO table and displays it in the jTable1 table
     public void Marks_Load() 
     {
         int c;
@@ -85,19 +102,15 @@ public class Marks extends javax.swing.JFrame {
                     v.add(rs.getString("MSUBJECT"));
                     v.add(rs.getString("MARKS"));
                     v.add(rs.getString("MSEMESTER"));
-                    
                 }
                 dtm.addRow(v);
             }
-            
-            
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) 
+        {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
-    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -341,16 +354,16 @@ public class Marks extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    // Retrieves input values from the text fields and combo boxes, formats the date, and inserts the exam information into the database
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-
-        
         String sid = txtsid.getText();
         String sname = txtsname.getText();
         String sclass = txtclass.getSelectedItem().toString();
         String ssubject = txtsubject.getSelectedItem().toString();
         String smarks = txtmarks.getText();
         String semester = txtsemester.getSelectedItem().toString();
+        
         try
         {
             pst = conn.prepareStatement("insert into MARKSINFO(MSTUDENTID,MSTUDENTNAME,MCLASS,MSUBJECT,MARKS,MSEMESTER)values(?,?,?,?,?,?)");
@@ -361,7 +374,6 @@ public class Marks extends javax.swing.JFrame {
             pst.setString(5, smarks);
             pst.setString(6, semester);
             
-            
             pst.executeUpdate();
             
             JOptionPane.showMessageDialog(this, "Marks has been added to the System");
@@ -370,10 +382,11 @@ public class Marks extends javax.swing.JFrame {
         }
         catch (SQLException ex) 
         {
-                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    // When "Search" Button is clicked It retrieves the value entered in the txtsid text field, which represents a student ID
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         try {
@@ -383,7 +396,7 @@ public class Marks extends javax.swing.JFrame {
             pst.setString(1,sid);
             rs = pst.executeQuery();
             
-            if(rs.next()==false)
+            if(rs.next() == false)
             {
                 JOptionPane.showMessageDialog(this, "Student Not Found");
             }
@@ -393,17 +406,16 @@ public class Marks extends javax.swing.JFrame {
                 txtsname.setText(sname.trim());
                 
                 String sclass = rs.getString("SCLASS");
-                txtclass.addItem(sclass.trim());
-                
-            }
-            
-            
-            
-        } catch (SQLException ex) {
+                txtclass.addItem(sclass.trim());  
+            }  
+        } 
+        catch (SQLException ex) 
+        {
             Logger.getLogger(Marks.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    // Retrieves the selected row's data from the table and populates the input fields with the corresponding values
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
         dtm = (DefaultTableModel)jTable1.getModel();
@@ -422,15 +434,14 @@ public class Marks extends javax.swing.JFrame {
         jButton2.setEnabled(false);
     }//GEN-LAST:event_jTable1MouseClicked
 
+    // Deletes the selected marks from the system by retrieving the selected row's ID
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        try {    
-            
+        try 
+        {    
             dtm = (DefaultTableModel)jTable1.getModel();
             int selectIndex = jTable1.getSelectedRow();
-        
             String id = dtm.getValueAt(selectIndex, 0).toString();
-
 
             pst = conn.prepareStatement("delete from MARKSINFO WHERE MARKID = ?");
             pst.setString(1, id);
@@ -446,16 +457,17 @@ public class Marks extends javax.swing.JFrame {
             txtmarks.setText("");
             txtsemester.setSelectedIndex(-1);
             
-
             Marks_Load();
             
             jButton1.setEnabled(true);
-            
-            } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) 
+        {
                 Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    // Resets the input fields by clearing their values and resetting the selected indexes and enables the jButton1 and jButton2 button
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         txtsid.setText("");
@@ -468,6 +480,7 @@ public class Marks extends javax.swing.JFrame {
         jButton2.setEnabled(true);    
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    // When the "Close" Button is clicked It handles the action of hiding the current window or frame
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);

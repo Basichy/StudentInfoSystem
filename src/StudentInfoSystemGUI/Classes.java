@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package StudentInfoSystemGUI;
 
 import java.sql.Connection;
@@ -17,14 +13,13 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author ETHAN
+ * @author EthanGaylan 21150437
  */
-public class Classes extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Class
-     */
-    public Classes() {
+public class Classes extends javax.swing.JFrame 
+{
+    public Classes() 
+    {
         initComponents();
         JavaConnect.connectdb();
         Classes_Load();
@@ -35,6 +30,41 @@ public class Classes extends javax.swing.JFrame {
     ResultSet rs;
     DefaultTableModel dtm;
     
+    // This method retrieves all class information from the database and populates the table model for jTable1
+    public void Classes_Load() 
+    {
+        int c;
+        
+        try
+        {
+            pst = conn.prepareStatement("select * from CLASSINFO");
+            rs = pst.executeQuery();
+            
+            ResultSetMetaData rsd = rs.getMetaData();
+            c = rsd.getColumnCount();
+            
+            dtm = (DefaultTableModel)jTable1.getModel();
+            dtm.setRowCount(0);
+            
+            while(rs.next())
+            {
+                Vector v = new Vector();
+                
+                for(int i = 1; i <= c; i++)
+                {
+                    v.add(rs.getString("CLASSID"));
+                    v.add(rs.getString("CLASSNAME"));
+                    v.add(rs.getString("SECTION"));
+                }
+                dtm.addRow(v);
+            }
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+     
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -222,44 +252,46 @@ public class Classes extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    
-    
-    
+    // When the "Save" Button is clicked It retrieves the input values from the text fields and inserts them into the database table
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        
-
-            
-        try {    
+        try 
+        {    
+            // Get selected class name and section from the combo boxes
             String cname = txtclassname.getSelectedItem().toString();
             String section = txtsection.getSelectedItem().toString();
 
+            // Prepare and execute the SQL query to insert the class into the database
             pst = conn.prepareStatement("insert into CLASSINFO(CLASSNAME,SECTION)values(?,?)");
             pst.setString(1, cname);
             pst.setString(2, section);
-            
             pst.executeUpdate();
             
             JOptionPane.showMessageDialog(this, "Class has been added to the System");
             
+            // Reset combo box selections
             txtclassname.setSelectedIndex(-1);
             txtsection.setSelectedIndex(-1);
 
+            // Reload the classes in the table
             Classes_Load();
             
+            // Set focus to the class name combo box
             txtclassname.requestFocus();
-            
-            } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) 
+        {
                 Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    // Event handler for when a row in the table is clicked
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
         dtm = (DefaultTableModel)jTable1.getModel();
         int selectIndex = jTable1.getSelectedRow();
         
+        // Retrieve class ID, name, and section from the selected row
         String id = dtm.getValueAt(selectIndex, 0).toString();
         txtclassname.setSelectedItem(dtm.getValueAt(selectIndex, 1).toString());
         txtsection.setSelectedItem(dtm.getValueAt(selectIndex, 2).toString());
@@ -267,6 +299,7 @@ public class Classes extends javax.swing.JFrame {
         jButton1.setEnabled(false);
     }//GEN-LAST:event_jTable1MouseClicked
 
+    // Event handler for "Clear" button
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         txtclassname.setSelectedIndex(-1);
@@ -274,81 +307,50 @@ public class Classes extends javax.swing.JFrame {
         jButton1.setEnabled(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    // Event handler for "Delete" button
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        
-        try {    
-            
+        try 
+        {    
             dtm = (DefaultTableModel)jTable1.getModel();
             int selectIndex = jTable1.getSelectedRow();
         
+            // Get the class ID from the selected row
             String id = dtm.getValueAt(selectIndex, 0).toString();
 
-
+            // Prepare and execute the SQL query to delete the class from the database
             pst = conn.prepareStatement("delete from CLASSINFO WHERE CLASSID = ?");
             pst.setString(1, id);
-            
             pst.executeUpdate();
             
             JOptionPane.showMessageDialog(this, "Class has been deleted from the System");
             
+            // Reset combo box selections
             txtclassname.setSelectedIndex(-1);
             txtsection.setSelectedIndex(-1);
 
+            // Reload the classes in the table
             Classes_Load();
             
+            // Enable the "Save" button
             jButton1.setEnabled(true);
-            
-            } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) 
+        {
                 Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    // When the "Close" Button is clicked It handles the action of hiding the current window or frame.
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        
+        // TODO add your handling code here: 
         this.setVisible(false);
-        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void txtsectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtsectionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtsectionActionPerformed
 
-    
-    public void Classes_Load() 
-    {
-        int c;
-        
-        try
-        {
-            pst = conn.prepareStatement("select * from CLASSINFO");
-            rs = pst.executeQuery();
-            
-            ResultSetMetaData rsd = rs.getMetaData();
-            c = rsd.getColumnCount();
-            
-            dtm = (DefaultTableModel)jTable1.getModel();
-            dtm.setRowCount(0);
-            
-            while(rs.next())
-            {
-                Vector v = new Vector();
-                
-                for(int i = 1; i <= c; i++)
-                {
-                    v.add(rs.getString("CLASSID"));
-                    v.add(rs.getString("CLASSNAME"));
-                    v.add(rs.getString("SECTION"));
-                }
-                dtm.addRow(v);
-            }
-            
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
     /**
      * @param args the command line arguments
      */

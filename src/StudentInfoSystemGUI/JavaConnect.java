@@ -8,18 +8,25 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author EthanGaylan
+ * @author EthanGaylan 21150437
  */
 
-public class JavaConnect {
+// This class provides a method to establish a connection to the StudentInfoSystem database
+public class JavaConnect 
+{
     public static Connection connectdb()
     {
+        // Establishes a connection to the StudentInfoSystem database
         Connection conn = null;
-        try {
+        try 
+        {
+            // Establish the database connection using the Derby JDBC driver
             conn = DriverManager.getConnection("jdbc:derby:StudentInfoSystem;create=true");
-
             return conn;
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) 
+        {
+            // Log any SQLException that occurs during the connection proces
             Logger.getLogger(JavaConnect.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;

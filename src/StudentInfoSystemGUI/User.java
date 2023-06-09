@@ -14,22 +14,16 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author ETHAN
+ * @author EthanGaylan 21150437
  */
 
-public class User extends javax.swing.JFrame {
-
-    
-    /**
-     * Creates new form User
-     */
-    public User() {
+public class User extends javax.swing.JFrame 
+{
+    public User() 
+    {
         initComponents();
-        
-        JavaConnect.connectdb();
-        
+        JavaConnect.connectdb(); 
         User_Load();
-        
     }
     
     Connection conn = JavaConnect.connectdb();
@@ -74,14 +68,13 @@ public class User extends javax.swing.JFrame {
                     v.add(rs.getString("UTYPE"));
                 }
                 dtm.addRow(v);
-            }
-            
-            
-        } catch (SQLException ex) {
+            }  
+        } 
+        catch (SQLException ex) 
+        {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -336,40 +329,41 @@ public class User extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    //Save Button
+    // Retrieves input values from the text fields and combo boxes, and inserts the exam information into the database
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        
-    try {    
-        String name = txtname.getText();
-        String phone = txtphone.getText();
-        String address = txtaddress.getText();
-        String uname = txtuname.getText();
-        String password = txtpass.getText();
-        String utype = txtutype.getSelectedItem().toString();
-        
-        pst = conn.prepareStatement("insert into USERINFO(NAME,PHONE,ADDRESS,UNAME,PASSWORD,UTYPE)values(?,?,?,?,?,?)");
-        pst.setString(1, name);
-        pst.setString(2, phone);
-        pst.setString(3, address);
-        pst.setString(4, uname);
-        pst.setString(5, password);
-        pst.setString(6, utype);
-        
-        pst.executeUpdate();
-        JOptionPane.showMessageDialog(this, "User has been added to the System");
-        
-        txtname.setText("");
-        txtphone.setText("");
-        txtaddress.setText("");
-        txtuname.setText("");
-        txtpass.setText("");
-        txtutype.setSelectedIndex(-1);
-        txtname.requestFocus();
-        
-        User_Load();
-        
-        } catch (SQLException ex) {
+        // TODO add your handling code here:   
+        try 
+        {    
+            String name = txtname.getText();
+            String phone = txtphone.getText();
+            String address = txtaddress.getText();
+            String uname = txtuname.getText();
+            String password = txtpass.getText();
+            String utype = txtutype.getSelectedItem().toString();
+
+            pst = conn.prepareStatement("insert into USERINFO(NAME,PHONE,ADDRESS,UNAME,PASSWORD,UTYPE)values(?,?,?,?,?,?)");
+            pst.setString(1, name);
+            pst.setString(2, phone);
+            pst.setString(3, address);
+            pst.setString(4, uname);
+            pst.setString(5, password);
+            pst.setString(6, utype);
+            pst.executeUpdate();
+
+            JOptionPane.showMessageDialog(this, "User has been added to the System");
+
+            txtname.setText("");
+            txtphone.setText("");
+            txtaddress.setText("");
+            txtuname.setText("");
+            txtpass.setText("");
+            txtutype.setSelectedIndex(-1);
+            txtname.requestFocus();
+
+            User_Load();
+        } 
+        catch (SQLException ex) 
+        {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -378,7 +372,7 @@ public class User extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtutypeActionPerformed
 
-    //When User clicked on one of the list
+    // Retrieves the selected row's data from the table and populates the input fields with the corresponding values
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
         dtm = (DefaultTableModel)jTable1.getModel();
@@ -394,55 +388,53 @@ public class User extends javax.swing.JFrame {
         jButton1.setEnabled(false);
     }//GEN-LAST:event_jTable1MouseClicked
 
-    //Edit Button
+    // Updates the student information in the database based on the values entered in the UI
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        
-    try {    
-        dtm = (DefaultTableModel)jTable1.getModel();
-        int selectIndex = jTable1.getSelectedRow();
-        
-        String id = dtm.getValueAt(selectIndex, 0).toString();
-        
-        String name = txtname.getText();
-        String phone = txtphone.getText();
-        String address = txtaddress.getText();
-        String uname = txtuname.getText();
-        String password = txtpass.getText();
-        String utype = txtutype.getSelectedItem().toString();
-        
-        pst = conn.prepareStatement("update USERINFO set NAME = ?, PHONE = ?, ADDRESS = ?, UNAME = ?, UTYPE = ? where ID = ?");
-        pst.setString(1, name);
-        pst.setString(2, phone);
-        pst.setString(3, address);
-        pst.setString(4, uname);
-        pst.setString(5, utype);
-        pst.setString(6,  id);
-        
-        pst.executeUpdate();
-        JOptionPane.showMessageDialog(this, "User has been edited in the System");
-        jButton1.setEnabled(true);
-        
-        txtname.setText("");
-        txtphone.setText("");
-        txtaddress.setText("");
-        txtuname.setText("");
-        txtpass.setText("");
-        txtutype.setSelectedIndex(-1);
-        txtname.requestFocus();
-        
-        User_Load();
-        
-        } catch (SQLException ex) {
+        // TODO add your handling code here: 
+        try 
+        {    
+            dtm = (DefaultTableModel)jTable1.getModel();
+            int selectIndex = jTable1.getSelectedRow();
+            String id = dtm.getValueAt(selectIndex, 0).toString();
+
+            String name = txtname.getText();
+            String phone = txtphone.getText();
+            String address = txtaddress.getText();
+            String uname = txtuname.getText();
+            String password = txtpass.getText();
+            String utype = txtutype.getSelectedItem().toString();
+
+            pst = conn.prepareStatement("update USERINFO set NAME = ?, PHONE = ?, ADDRESS = ?, UNAME = ?, UTYPE = ? where ID = ?");
+            pst.setString(1, name);
+            pst.setString(2, phone);
+            pst.setString(3, address);
+            pst.setString(4, uname);
+            pst.setString(5, utype);
+            pst.setString(6,  id);
+            pst.executeUpdate();
+            
+            JOptionPane.showMessageDialog(this, "User has been edited in the System");
+            jButton1.setEnabled(true);
+
+            txtname.setText("");
+            txtphone.setText("");
+            txtaddress.setText("");
+            txtuname.setText("");
+            txtpass.setText("");
+            txtutype.setSelectedIndex(-1);
+            txtname.requestFocus();
+
+            User_Load();
+        } 
+        catch (SQLException ex) 
+        {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }        
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    
-    //Clear Button
+    // Resets the input fields by clearing their values and resetting the selected indexes and enables the jButton1 button
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        
         jButton1.setEnabled(true);
         
         //Sets the Text Field Box Empty or Default
@@ -458,44 +450,41 @@ public class User extends javax.swing.JFrame {
         User_Load();
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    //Delete Button
+    // Deletes the selected students from the system by retrieving the selected values
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        
-        try {    
-        dtm = (DefaultTableModel)jTable1.getModel();
-        int selectIndex = jTable1.getSelectedRow();
-        
-        String id = dtm.getValueAt(selectIndex, 0).toString();
-        
-        pst = conn.prepareStatement("delete from USERINFO where ID = ?");
+        // TODO add your handling code here:  
+        try 
+        {    
+            dtm = (DefaultTableModel)jTable1.getModel();
+            int selectIndex = jTable1.getSelectedRow();
+            String id = dtm.getValueAt(selectIndex, 0).toString();
 
-        pst.setString(1,  id);
-        
-        pst.executeUpdate();
-        JOptionPane.showMessageDialog(this, "User has been deleted from the System");
-        jButton1.setEnabled(true);
-        
-        txtname.setText("");
-        txtphone.setText("");
-        txtaddress.setText("");
-        txtuname.setText("");
-        txtpass.setText("");
-        txtutype.setSelectedIndex(-1);
-        txtname.requestFocus();
-        
-        User_Load();
-        
-        } catch (SQLException ex) {
+            pst = conn.prepareStatement("delete from USERINFO where ID = ?");
+            pst.setString(1,  id);
+            pst.executeUpdate();
+
+            JOptionPane.showMessageDialog(this, "User has been deleted from the System");
+            jButton1.setEnabled(true);
+
+            txtname.setText("");
+            txtphone.setText("");
+            txtaddress.setText("");
+            txtuname.setText("");
+            txtpass.setText("");
+            txtutype.setSelectedIndex(-1);
+            txtname.requestFocus();
+
+            User_Load();
+        } 
+        catch (SQLException ex) 
+        {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }  
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    
-    //Close Button
+    // When the "Close" Button is clicked It handles the action of hiding the current window or frame
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        
         this.setVisible(false);
     }//GEN-LAST:event_jButton5ActionPerformed
 

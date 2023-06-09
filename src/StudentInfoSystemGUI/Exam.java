@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package StudentInfoSystemGUI;
 
 import java.sql.Connection;
@@ -20,14 +16,13 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author ETHAN
+ * @author EthanGaylan 21150437
  */
-public class Exam extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Exam
-     */
-    public Exam() {
+public class Exam extends javax.swing.JFrame 
+{
+    public Exam() 
+    {
         initComponents();
         JavaConnect.connectdb();
         Load_Class();
@@ -42,27 +37,32 @@ public class Exam extends javax.swing.JFrame {
     ResultSet rs;
     DefaultTableModel dtm;
 
+    // Loads available classes from the database and populates the class selection combo box
     public void Load_Class()
     {
-        try {
-            pst = conn.prepareStatement("SELECT DISTINCT CLASSNAME from CLASSINFO");
+        try 
+        {
+            pst = conn.prepareStatement("select distinct CLASSNAME from CLASSINFO");
             rs = pst.executeQuery();
             txtclass.removeAllItems();
             
             while(rs.next())
             {
                 txtclass.addItem(rs.getString("CLASSNAME"));
-            }
-            
-        } catch (SQLException ex) {
+            }          
+        } 
+        catch (SQLException ex)
+        {
             Logger.getLogger(Exam.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
+    // Loads available sections from the database and populates the section selection combo box
     public void Load_Section()
     {
-        try {
-            pst = conn.prepareStatement("SELECT DISTINCT SECTION from CLASSINFO");
+        try 
+        {
+            pst = conn.prepareStatement("select distinct SECTION from CLASSINFO");
             rs = pst.executeQuery();
             txtsection.removeAllItems();
             
@@ -70,17 +70,19 @@ public class Exam extends javax.swing.JFrame {
             {
                 txtsection.addItem(rs.getString("SECTION"));
             }
-            
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) 
+        {
             Logger.getLogger(Exam.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
     
+    // Loads available subjects from the database and populates the subject selection combo box
     public void Load_Subject()
     {
-        try {
-            pst = conn.prepareStatement("SELECT DISTINCT SUBJECTNAME from SUBJECTINFO");
+        try 
+        {
+            pst = conn.prepareStatement("select distinct SUBJECTNAME from SUBJECTINFO");
             rs = pst.executeQuery();
             txtsubject.removeAllItems();
             
@@ -88,13 +90,15 @@ public class Exam extends javax.swing.JFrame {
             {
                 txtsubject.addItem(rs.getString("SUBJECTNAME"));
             }
-            
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) 
+        {
             Logger.getLogger(Exam.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
     
+    // Retrieves exam information from the EXAMINFO table and displays it in the jTable1 table
     public void Exam_Load() 
     {
         int c;
@@ -123,30 +127,15 @@ public class Exam extends javax.swing.JFrame {
                     v.add(rs.getString("ECLASS"));
                     v.add(rs.getString("ESECTION"));
                     v.add(rs.getString("ESUBJECT"));
-                    
                 }
                 dtm.addRow(v);
-            }
-            
-            
-        } catch (SQLException ex) {
+            } 
+        } 
+        catch (SQLException ex) 
+        {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -164,7 +153,6 @@ public class Exam extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        txtename = new javax.swing.JTextField();
         txtsemester = new javax.swing.JComboBox<>();
         txtdate = new com.toedter.calendar.JDateChooser();
         txtclass = new javax.swing.JComboBox<>();
@@ -175,6 +163,7 @@ public class Exam extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        txtename = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
@@ -194,9 +183,6 @@ public class Exam extends javax.swing.JFrame {
         jLabel6.setText("Section");
 
         jLabel7.setText("Subject");
-
-        txtename.setEditable(false);
-        txtename.setBackground(new java.awt.Color(204, 204, 204));
 
         txtsemester.setBackground(new java.awt.Color(153, 153, 153));
         txtsemester.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1st Semester", "2nd Semester" }));
@@ -257,6 +243,8 @@ public class Exam extends javax.swing.JFrame {
             }
         });
 
+        txtename.setBackground(new java.awt.Color(204, 204, 204));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -290,11 +278,11 @@ public class Exam extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtsemester, 0, 140, Short.MAX_VALUE)
-                            .addComponent(txtename)
                             .addComponent(txtclass, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtsection, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtsubject, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(txtdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtename)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(140, 140, 140)
                         .addComponent(jLabel1)))
@@ -307,8 +295,8 @@ public class Exam extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtename, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(txtename, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -390,6 +378,7 @@ public class Exam extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtclassActionPerformed
 
+    // Retrieves input values from the text fields and combo boxes, formats the date, and inserts the exam information into the database
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         String examname = txtename.getText();
@@ -416,52 +405,54 @@ public class Exam extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Exam has been added to the System");
             
             Exam_Load();
-            
-            
-            } catch (SQLException ex) {
-                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        catch (SQLException ex) 
+        {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    // When the "Close" Button is clicked It handles the action of hiding the current window or frame
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    // Deletes the selected exam from the system by retrieving the selected row's ID
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        try {    
-            
+        try 
+        {        
             dtm = (DefaultTableModel)jTable1.getModel();
             int selectIndex = jTable1.getSelectedRow();
         
             String id = dtm.getValueAt(selectIndex, 0).toString();
 
-
-            pst = conn.prepareStatement("delete from EXAMINFO WHERE EXAMID = ?");
+            pst = conn.prepareStatement("delete from EXAMINFO where EXAMID = ?");
             pst.setString(1, id);
-            
             pst.executeUpdate();
             
             JOptionPane.showMessageDialog(this, "Exam has been deleted from the System");
             
+            // resetting the input fields
             txtename.setText("");
             txtsemester.setSelectedIndex(-1);
             txtdate.setCalendar(null);
             txtclass.setSelectedIndex(-1);
             txtsection.setSelectedIndex(-1);
             txtsubject.setSelectedIndex(-1);
-            
 
             Exam_Load();
             
             jButton1.setEnabled(true);
-            
-            } catch (SQLException ex) {
-                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        catch (SQLException ex) 
+        {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    // Resets the input fields by clearing their values and resetting the selected indexes and enables the jButton1 button.
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         txtename.setText("");
@@ -471,32 +462,33 @@ public class Exam extends javax.swing.JFrame {
         txtsection.setSelectedIndex(-1);
         txtsubject.setSelectedIndex(-1);
         jButton1.setEnabled(true);
-        
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    // Retrieves the selected row's data from the table and populates the input fields with the corresponding values
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
         try
-        {
-            
-        dtm = (DefaultTableModel)jTable1.getModel();
-        int selectIndex = jTable1.getSelectedRow();
-        
-        String id = dtm.getValueAt(selectIndex, 0).toString();
-        txtename.setText(dtm.getValueAt(selectIndex, 1).toString());
-        txtsemester.setSelectedItem(dtm.getValueAt(selectIndex, 2).toString());
-        
-        Date date = new SimpleDateFormat("dd-MM-yyyy").parse((String)dtm.getValueAt(selectIndex,3));
-        txtdate.setDate(date);
+        {        
+            dtm = (DefaultTableModel)jTable1.getModel();
+            int selectIndex = jTable1.getSelectedRow();
 
-        
-        txtclass.setSelectedItem(dtm.getValueAt(selectIndex, 4).toString());
-        txtsection.setSelectedItem(dtm.getValueAt(selectIndex, 5).toString());
-        txtsubject.setSelectedItem(dtm.getValueAt(selectIndex, 6).toString());
+            // Retrieve the data from the selected row
+            String id = dtm.getValueAt(selectIndex, 0).toString();
+            txtename.setText(dtm.getValueAt(selectIndex, 1).toString());
+            txtsemester.setSelectedItem(dtm.getValueAt(selectIndex, 2).toString());
 
-        jButton1.setEnabled(false);
+            // Parse the date from the table and set it in the txtdate component
+            Date date = new SimpleDateFormat("dd-MM-yyyy").parse((String)dtm.getValueAt(selectIndex,3));
+            txtdate.setDate(date);
+
+            txtclass.setSelectedItem(dtm.getValueAt(selectIndex, 4).toString());
+            txtsection.setSelectedItem(dtm.getValueAt(selectIndex, 5).toString());
+            txtsubject.setSelectedItem(dtm.getValueAt(selectIndex, 6).toString());
+
+            jButton1.setEnabled(false);
         }
-        catch (ParseException ex) {
+        catch (ParseException ex) 
+        {
             Logger.getLogger(Exam.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jTable1MouseClicked

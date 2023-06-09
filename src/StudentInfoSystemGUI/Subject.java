@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package StudentInfoSystemGUI;
 
 import java.sql.Connection;
@@ -17,14 +13,13 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author ETHAN
+ * @author EthanGaylan 21150437
  */
-public class Subject extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Subject
-     */
-    public Subject() {
+public class Subject extends javax.swing.JFrame 
+{
+    public Subject() 
+    {
         initComponents();
         JavaConnect.connectdb();
         Subject_Load();
@@ -35,6 +30,7 @@ public class Subject extends javax.swing.JFrame {
     ResultSet rs;
     DefaultTableModel dtm;
     
+    // Retrieves exam information from the SUBJECTINFO table and displays it in the jTable1 table
     public void Subject_Load() 
     {
         int c;
@@ -61,9 +57,9 @@ public class Subject extends javax.swing.JFrame {
                 }
                 dtm.addRow(v);
             }
-            
-            
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) 
+        {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -96,7 +92,6 @@ public class Subject extends javax.swing.JFrame {
         jLabel2.setText("Subject");
 
         txtsubject.setBackground(new java.awt.Color(204, 204, 204));
-        txtsubject.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtsubject.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtsubjectActionPerformed(evt);
@@ -247,9 +242,11 @@ public class Subject extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtsubjectActionPerformed
 
+    // When the "Save" Button is clicked It retrieves the input values from the text fields and inserts them into the database table
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        try {    
+        try 
+        {    
             String subject = txtsubject.getText();
 
             pst = conn.prepareStatement("insert into SUBJECTINFO(SUBJECTNAME)values(?)");
@@ -257,17 +254,20 @@ public class Subject extends javax.swing.JFrame {
             
             pst.executeUpdate();
             
-            JOptionPane.showMessageDialog(this, "Class has been added to the System");
+            JOptionPane.showMessageDialog(this, "Subject has been added to the System");
             
             txtsubject.setText("");
             Subject_Load();
             txtsubject.requestFocus();
             
-            } catch (SQLException ex) {
-                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        catch (SQLException ex) 
+        {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    // Event handler for when a row in the table is clicked
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
         dtm = (DefaultTableModel)jTable1.getModel();
@@ -277,19 +277,18 @@ public class Subject extends javax.swing.JFrame {
         txtsubject.setText(dtm.getValueAt(selectIndex, 1).toString());
 
         jButton1.setEnabled(false);
-        
-        
     }//GEN-LAST:event_jTable1MouseClicked
 
+    // Event handler for "Delete" button
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        try {    
+        try 
+        {    
             dtm = (DefaultTableModel)jTable1.getModel();
             int selectIndex = jTable1.getSelectedRow();
 
             String id = dtm.getValueAt(selectIndex, 0).toString();
             
-
             pst = conn.prepareStatement("delete from SUBJECTINFO where SUBJECTID = ?");
             pst.setString(1, id);
             
@@ -302,20 +301,24 @@ public class Subject extends javax.swing.JFrame {
             txtsubject.requestFocus();
             
             jButton1.setEnabled(true);
-            
-            } catch (SQLException ex) {
-                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        catch (SQLException ex) 
+        {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    // Event handler for "Clear" button
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         txtsubject.setText("");
-        Subject_Load();
         txtsubject.requestFocus();
         jButton1.setEnabled(true);
+        
+        Subject_Load();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    // Event handler for "Close" button
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);

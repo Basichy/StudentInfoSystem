@@ -1,19 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package StudentInfoSystemGUI;
 
 /**
  *
- * @author ETHAN
+ * @author EthanGaylan 21150437
  */
-public class Main extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Main
-     */
-    public Main() {
+public class Main extends javax.swing.JFrame 
+{
+    public Main() 
+    {
         initComponents();
     }
 
@@ -32,13 +27,8 @@ public class Main extends javax.swing.JFrame {
         jLabel2.setText(usertype);  
         
         this.iid = id;
-        
-        
     }
-
     
-    
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -237,49 +227,50 @@ public class Main extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    // Handles the action performed when the "Class" button is clicked
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         Classes c = new Classes();
         c.setVisible(true);
-        
-        
-        
-        
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    // Handles the action performed when the "Subject" button is clicked
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         Subject s = new Subject();
         s.setVisible(true);
-        
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    // Handles the action performed when the "Exam" button is clicked
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         Exam e = new Exam();
         e.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    // Handles the action performed when the "Student" button is clicked
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         Student s = new Student();
         s.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    // Handles the action performed when the "Logout" button is clicked
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
-        
         Login l = new Login();
         this.setVisible(false);
         l.setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    // Handles the action performed when the "Attendance" button is clicked
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
         Attendance a = new Attendance();
         a.setVisible(true);
     }//GEN-LAST:event_jButton7ActionPerformed
 
+    // Handles the action performed when the "Marks" button is clicked
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
         Marks m = new Marks();

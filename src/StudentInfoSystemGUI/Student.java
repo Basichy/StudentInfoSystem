@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package StudentInfoSystemGUI;
 
 import java.sql.Connection;
@@ -20,14 +16,13 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author ETHAN
+ * @author EthanGaylan 21150437
  */
-public class Student extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Student
-     */
-    public Student() {
+public class Student extends javax.swing.JFrame 
+{
+    public Student() 
+    {
         initComponents();
         JavaConnect.connectdb();
         Load_Class();
@@ -40,9 +35,11 @@ public class Student extends javax.swing.JFrame {
     ResultSet rs;
     DefaultTableModel dtm;
 
+    // Loads available classes from the database and populates the class selection combo box
     public void Load_Class()
     {
-        try {
+        try 
+        {
             pst = conn.prepareStatement("SELECT DISTINCT CLASSNAME from CLASSINFO");
             rs = pst.executeQuery();
             txtclass.removeAllItems();
@@ -52,15 +49,18 @@ public class Student extends javax.swing.JFrame {
                 txtclass.addItem(rs.getString("CLASSNAME"));
             }
             
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex)
+        {
             Logger.getLogger(Exam.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        } 
     }
     
+    // Loads available sections from the database and populates the section selection combo box
     public void Load_Section()
     {
-        try {
+        try 
+        {
             pst = conn.prepareStatement("SELECT DISTINCT SECTION from CLASSINFO");
             rs = pst.executeQuery();
             txtsection.removeAllItems();
@@ -70,12 +70,14 @@ public class Student extends javax.swing.JFrame {
                 txtsection.addItem(rs.getString("SECTION"));
             }
             
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) 
+        {
             Logger.getLogger(Exam.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
     
+    // Retrieves student information from the STUDENTINFO table and displays it in the jTable1 table
     public void Student_Load() 
     {
         int c;
@@ -105,20 +107,17 @@ public class Student extends javax.swing.JFrame {
                     v.add(rs.getString("PNUMBER"));
                     v.add(rs.getString("ADDRESS"));
                     v.add(rs.getString("SCLASS"));
-                    v.add(rs.getString("SSECTION"));
-                    
+                    v.add(rs.getString("SSECTION")); 
                 }
                 dtm.addRow(v);
             }
-            
-            
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex)
+        {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
-    
+ 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -397,41 +396,43 @@ public class Student extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    // Retrieves the selected row's data from the table and populates the input fields with the corresponding values
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
+        try 
+        {
+            dtm = (DefaultTableModel)jTable1.getModel();
+            int selectIndex = jTable1.getSelectedRow();
 
-        try {
-        dtm = (DefaultTableModel)jTable1.getModel();
-        int selectIndex = jTable1.getSelectedRow();
-        
-        String id = dtm.getValueAt(selectIndex, 0).toString();
-        txtsname.setText(dtm.getValueAt(selectIndex, 1).toString());
-        txtpname.setText(dtm.getValueAt(selectIndex, 2).toString());
-        
-        Date date = new SimpleDateFormat("dd-MM-yyyy").parse((String)dtm.getValueAt(selectIndex,3));
-        
-        txtdob.setDate(date);
-        
-        txtgender.setSelectedItem(dtm.getValueAt(selectIndex, 4).toString());
-        txtpnumber.setText(dtm.getValueAt(selectIndex, 5).toString());
-        txtaddress.setText(dtm.getValueAt(selectIndex, 6).toString());
-        txtclass.setSelectedItem(dtm.getValueAt(selectIndex, 7).toString());
-        txtsection.setSelectedItem(dtm.getValueAt(selectIndex, 8).toString());
-        
-        
+            String id = dtm.getValueAt(selectIndex, 0).toString();
+            txtsname.setText(dtm.getValueAt(selectIndex, 1).toString());
+            txtpname.setText(dtm.getValueAt(selectIndex, 2).toString());
 
-        jButton1.setEnabled(false);
+            Date date = new SimpleDateFormat("dd-MM-yyyy").parse((String)dtm.getValueAt(selectIndex,3));
+
+            txtdob.setDate(date);
+
+            txtgender.setSelectedItem(dtm.getValueAt(selectIndex, 4).toString());
+            txtpnumber.setText(dtm.getValueAt(selectIndex, 5).toString());
+            txtaddress.setText(dtm.getValueAt(selectIndex, 6).toString());
+            txtclass.setSelectedItem(dtm.getValueAt(selectIndex, 7).toString());
+            txtsection.setSelectedItem(dtm.getValueAt(selectIndex, 8).toString());
+
+            jButton1.setEnabled(false);
         }
-        catch (ParseException ex) {
+        catch (ParseException ex) 
+        {
             Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
+    // When the "Close" Button is clicked It handles the action of hiding the current window or frame
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    // Resets the input fields by clearing their values and resetting the selected indexes and enables the jButton1 button
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
 
@@ -446,17 +447,17 @@ public class Student extends javax.swing.JFrame {
         jButton1.setEnabled(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    // Deletes the selected students from the system by retrieving the selected values
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-
-        try {
-
+        try 
+        {
             dtm = (DefaultTableModel)jTable1.getModel();
             int selectIndex = jTable1.getSelectedRow();
 
             String id = dtm.getValueAt(selectIndex, 0).toString();
 
-            pst = conn.prepareStatement("delete from STUDENTINFO WHERE STUDENTID = ?");
+            pst = conn.prepareStatement("delete from STUDENTINFO where STUDENTID = ?");
             pst.setString(1, id);
 
             pst.executeUpdate();
@@ -476,37 +477,41 @@ public class Student extends javax.swing.JFrame {
 
             jButton1.setEnabled(true);
 
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) 
+        {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
-
+    
+    // Updates the student information in the database based on the values entered in the UI
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-
+        // Get the table model
         dtm = (DefaultTableModel)jTable1.getModel();
+        
+        // Get the index of the selected row
         int selectIndex = jTable1.getSelectedRow();
-
+        
+        // Retrieve the ID from the selected row
         String id = dtm.getValueAt(selectIndex, 0).toString();
 
+        // Get the updated values from the text fields and combo boxes
         String sname = txtsname.getText();
         String pname = txtpname.getText();
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         String date = sdf.format(txtdob.getDate());
-
+        
         String gender = txtgender.getSelectedItem().toString();
-
         String phone = txtpnumber.getText();
-
         String address = txtaddress.getText();
-
         String classes = txtclass.getSelectedItem().toString();
-
         String section = txtsection.getSelectedItem().toString();
 
-        try {
-
+        try 
+        {
+            // Prepare and execute the SQL update statement to modify the student information
             pst = conn.prepareStatement("update STUDENTINFO set SNAME = ?, PNAME = ?, DOB = ?, GENDER = ?, PNUMBER = ?, ADDRESS = ?, SCLASS = ?, SSECTION = ? where STUDENTID = ?");
             pst.setString(1, sname);
             pst.setString(2, pname);
@@ -519,19 +524,25 @@ public class Student extends javax.swing.JFrame {
             pst.setString(9,  id);
 
             pst.executeUpdate();
+            
+            // Display a success message
             JOptionPane.showMessageDialog(this, "Student has been edited in the System");
+            
+            // Enable the jButton1 button
             jButton1.setEnabled(true);
 
+            // Reload the student data
             Student_Load();
-
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) 
+        {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    // Retrieves input values from the text fields and combo boxes, formats the date, and inserts the exam information into the database
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-
         String sname = txtsname.getText();
         String pname = txtpname.getText();
 
@@ -539,13 +550,9 @@ public class Student extends javax.swing.JFrame {
         String date = sdf.format(txtdob.getDate());
 
         String gender = txtgender.getSelectedItem().toString();
-
         String phone = txtpnumber.getText();
-
         String address = txtaddress.getText();
-
         String classes = txtclass.getSelectedItem().toString();
-
         String section = txtsection.getSelectedItem().toString();
 
         try

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package StudentInfoSystemGUI;
 
 import java.sql.Connection;
@@ -20,14 +16,13 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author ETHAN
+ * @author EthanGaylan 21150437
  */
-public class Attendance extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Attendance
-     */
-    public Attendance() {
+public class Attendance extends javax.swing.JFrame 
+{
+    public Attendance() 
+    {
         initComponents();
         JavaConnect.connectdb();
         Load_Subject();
@@ -39,9 +34,11 @@ public class Attendance extends javax.swing.JFrame {
     ResultSet rs;
     DefaultTableModel dtm;
     
+    // Loads the subjects from the SUBJECTINFO table and populates the txtsubject combo box
     public void Load_Subject()
     {
-        try {
+        try 
+        {
             pst = conn.prepareStatement("SELECT DISTINCT SUBJECTNAME from SUBJECTINFO");
             rs = pst.executeQuery();
             txtclass.removeAllItems();
@@ -49,14 +46,15 @@ public class Attendance extends javax.swing.JFrame {
             while(rs.next())
             {
                 txtsubject.addItem(rs.getString("SUBJECTNAME"));
-            }
-            
-        } catch (SQLException ex) {
+            }   
+        } 
+        catch (SQLException ex) 
+        {
             Logger.getLogger(Exam.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
     
+    // Loads attendance data from the ATTENDANCEINFO table and populates the jTable1 table
     public void Attendance_Load() 
     {
         int c;
@@ -84,14 +82,13 @@ public class Attendance extends javax.swing.JFrame {
                     v.add(rs.getString("ADATE"));
                     v.add(rs.getString("ACLASS"));
                     v.add(rs.getString("ASUBJECT"));
-                    v.add(rs.getString("ACOMMENT"));
-                    
+                    v.add(rs.getString("ACOMMENT"));  
                 }
                 dtm.addRow(v);
-            }
-            
-            
-        } catch (SQLException ex) {
+            }       
+        } 
+        catch (SQLException ex)
+        {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -337,47 +334,57 @@ public class Attendance extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    // Event handler for the "Search" button. Retrieves student information based on the entered student ID
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        try {
+        try 
+        {
+            // Retrieve the student ID from the text field
             String sid = txtsid.getText();
             
+            // Prepare the SQL statement for retrieving the student information
             pst = conn.prepareStatement("select * from STUDENTINFO where STUDENTID = ?");
             pst.setString(1,sid);
             rs = pst.executeQuery();
             
-            if(rs.next()==false)
+            if(rs.next() == false)
             {
+                // If no records are returned, the student is not found in the database
                 JOptionPane.showMessageDialog(this, "Student Not Found");
             }
             else
             {
+                 // If a record is found, retrieve the student's name and class from the result set
                 String sname = rs.getString("SNAME");
                 txtsname.setText(sname.trim());
                 
                 String sclass = rs.getString("SCLASS");
                 txtclass.addItem(sclass.trim());
-                
             }
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) 
+        {
+            // Log any SQL exceptions that occur during the database operation
             Logger.getLogger(Marks.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    // When the "Save" Button is clicked It retrieves the input values from the text fields and inserts them into the database table
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        
+        // Retrieve input values from the text fields
         String sid = txtsid.getText();
         String sname = txtsname.getText();
-        
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         String date = sdf.format(txtdate.getDate());
-        
         String sclass = txtclass.getSelectedItem().toString();
         String ssubject = txtsubject.getSelectedItem().toString();
         String comment = txtcomment.getSelectedItem().toString();
         
         try
         {
+            // Prepare the SQL statement for inserting attendance data into the database table
             pst = conn.prepareStatement("insert into ATTENDANCEINFO(ASTUDENTID,ASTUDENTNAME,ADATE,ACLASS,ASUBJECT,ACOMMENT)values(?,?,?,?,?,?)");
             pst.setString(1, sid);
             pst.setString(2, sname);
@@ -386,36 +393,45 @@ public class Attendance extends javax.swing.JFrame {
             pst.setString(5, ssubject);
             pst.setString(6, comment);
             
-            
+            // Execute the SQL statement to insert the attendance data
             pst.executeUpdate();
             
+            // Display a success message to the user
             JOptionPane.showMessageDialog(this, "Student's Attendance has been added to the System");
 
+            // Reload the attendance data in the table
             Attendance_Load();
         }
         catch (SQLException ex) 
         {
-                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+            // Log any SQL exceptions that occur during the database operation
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    // If "Delete" Button is clicked It handles the deletion of a student's attendance record from the system
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        try {    
-            
+        try 
+        {    
+            // Get the table model and the selected row index
             dtm = (DefaultTableModel)jTable1.getModel();
             int selectIndex = jTable1.getSelectedRow();
         
+            // Retrieve the attendance ID from the selected row in the table
             String id = dtm.getValueAt(selectIndex, 0).toString();
 
-
+            // Prepare the SQL statement for deleting the attendance record
             pst = conn.prepareStatement("delete from ATTENDANCEINFO WHERE ATTENDANCEID = ?");
             pst.setString(1, id);
             
+            // Execute the SQL statement to delete the record
             pst.executeUpdate();
             
+            // Display a message to inform the user about the successful deletion
             JOptionPane.showMessageDialog(this, "Student's attendance has been deleted from the System");
             
+            // Reset the text fields and combo boxes
             txtsid.setText("");
             txtsname.setText("");
             txtdate.setCalendar(null);
@@ -423,15 +439,20 @@ public class Attendance extends javax.swing.JFrame {
             txtsubject.setSelectedIndex(-1);
             txtcomment.setSelectedIndex(-1);
 
+            // Refresh the attendance records in the table
             Attendance_Load();
             
+            // Enable the jButton1 to allow adding new attendance records
             jButton1.setEnabled(true);
-            
-            } catch (SQLException ex) {
-                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        catch (SQLException ex) 
+        {
+            // Log any SQL exceptions that occur during the database operation
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    // When "Clear" Button is clicked It handles the action of clearing the input fields and resetting the form to its initial state.
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         txtsid.setText("");
@@ -443,40 +464,43 @@ public class Attendance extends javax.swing.JFrame {
         jButton1.setEnabled(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    // When the "Close" Button is clicked It handles the action of hiding the current window or frame.
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    // When the mouse click over the jTable1 component
+    // It handles the action of populating the form fields with the data from the selected row in the table.
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
         try
         {
-            
-        dtm = (DefaultTableModel)jTable1.getModel();
-        int selectIndex = jTable1.getSelectedRow();
-        
-        String id = dtm.getValueAt(selectIndex, 0).toString();
-        txtsid.setText(dtm.getValueAt(selectIndex, 1).toString());
-        txtsname.setText(dtm.getValueAt(selectIndex, 2).toString());
-        
-        Date date = new SimpleDateFormat("dd-MM-yyyy").parse((String)dtm.getValueAt(selectIndex,3));
-        txtdate.setDate(date);
+            dtm = (DefaultTableModel)jTable1.getModel();
+            int selectIndex = jTable1.getSelectedRow();
 
-        
-        txtclass.setSelectedItem(dtm.getValueAt(selectIndex, 4).toString());
-        txtsubject.setSelectedItem(dtm.getValueAt(selectIndex, 5).toString());
-        txtcomment.setSelectedItem(dtm.getValueAt(selectIndex, 6).toString());
+            // Get the values from the selected row in the table
+            String id = dtm.getValueAt(selectIndex, 0).toString();
+            txtsid.setText(dtm.getValueAt(selectIndex, 1).toString());
+            txtsname.setText(dtm.getValueAt(selectIndex, 2).toString());
 
-        jButton1.setEnabled(false);
+            // Parse the date from string to Date object
+            Date date = new SimpleDateFormat("dd-MM-yyyy").parse((String)dtm.getValueAt(selectIndex,3));
+            txtdate.setDate(date);
+
+            // Set the selected items in the corresponding combo boxes
+            txtclass.setSelectedItem(dtm.getValueAt(selectIndex, 4).toString());
+            txtsubject.setSelectedItem(dtm.getValueAt(selectIndex, 5).toString());
+            txtcomment.setSelectedItem(dtm.getValueAt(selectIndex, 6).toString());
+
+            jButton1.setEnabled(false);
         }
-        catch (ParseException ex) {
+        catch (ParseException ex) 
+        {
             Logger.getLogger(Exam.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jTable1MouseClicked
-
-    
-    
+ 
     /**
      * @param args the command line arguments
      */
