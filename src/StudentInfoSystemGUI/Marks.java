@@ -21,12 +21,13 @@ public class Marks extends javax.swing.JFrame
     public Marks() 
     {
         initComponents();
+        JavaConnect.connectdb();
         Load_Class();
         Load_Subject();
         Marks_Load();
     }
 
-    Connection conn;
+    Connection conn = JavaConnect.connectdb();
     PreparedStatement pst;
     ResultSet rs;
     DefaultTableModel dtm;

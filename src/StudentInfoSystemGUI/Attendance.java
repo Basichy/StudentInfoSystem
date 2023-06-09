@@ -24,14 +24,36 @@ public class Attendance extends javax.swing.JFrame
     public Attendance() 
     {
         initComponents();
+        JavaConnect.connectdb();
+        Load_Class();
         Load_Subject();
         Attendance_Load();
     }
 
-    Connection conn;
+    Connection conn = JavaConnect.connectdb();
     PreparedStatement pst;
     ResultSet rs;
     DefaultTableModel dtm;
+    
+     // Loads available classes from the database and populates the class selection combo box
+    public void Load_Class()
+    {
+        try 
+        {
+            pst = conn.prepareStatement("select distinct CLASSNAME from CLASSINFO");
+            rs = pst.executeQuery();
+            txtclass.removeAllItems();
+            
+            while(rs.next())
+            {
+                txtclass.addItem(rs.getString("CLASSNAME"));
+            }          
+        } 
+        catch (SQLException ex)
+        {
+            Logger.getLogger(Exam.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     // Loads the subjects from the SUBJECTINFO table and populates the txtsubject combo box
     public void Load_Subject()
@@ -40,7 +62,7 @@ public class Attendance extends javax.swing.JFrame
         {
             pst = conn.prepareStatement("SELECT DISTINCT SUBJECTNAME from SUBJECTINFO");
             rs = pst.executeQuery();
-            txtclass.removeAllItems();
+            txtsubject.removeAllItems();
             
             while(rs.next())
             {

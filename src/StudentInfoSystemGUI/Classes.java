@@ -21,10 +21,11 @@ public class Classes extends javax.swing.JFrame
     public Classes() 
     {
         initComponents();
+        JavaConnect.connectdb();
         Classes_Load();
     }
     
-    Connection conn;
+    Connection conn = JavaConnect.connectdb();
     PreparedStatement pst;
     ResultSet rs;
     DefaultTableModel dtm;
