@@ -24,13 +24,12 @@ public class Student extends javax.swing.JFrame
     public Student() 
     {
         initComponents();
-        JavaConnect.connectdb();
         Load_Class();
         Load_Section();
         Student_Load();        
     }
     
-    Connection conn = JavaConnect.connectdb();
+    Connection conn;
     PreparedStatement pst;
     ResultSet rs;
     DefaultTableModel dtm;

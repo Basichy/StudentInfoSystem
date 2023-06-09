@@ -24,12 +24,11 @@ public class Attendance extends javax.swing.JFrame
     public Attendance() 
     {
         initComponents();
-        JavaConnect.connectdb();
         Load_Subject();
         Attendance_Load();
     }
 
-    Connection conn = JavaConnect.connectdb();
+    Connection conn;
     PreparedStatement pst;
     ResultSet rs;
     DefaultTableModel dtm;

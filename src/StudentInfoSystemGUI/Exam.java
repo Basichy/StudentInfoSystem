@@ -24,7 +24,6 @@ public class Exam extends javax.swing.JFrame
     public Exam() 
     {
         initComponents();
-        JavaConnect.connectdb();
         Load_Class();
         Load_Section();
         Load_Subject();
@@ -32,7 +31,7 @@ public class Exam extends javax.swing.JFrame
                 
     }
     
-    Connection conn = JavaConnect.connectdb();
+    Connection conn;
     PreparedStatement pst;
     ResultSet rs;
     DefaultTableModel dtm;

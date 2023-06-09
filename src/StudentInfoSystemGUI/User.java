@@ -22,7 +22,6 @@ public class User extends javax.swing.JFrame
     public User() 
     {
         initComponents();
-        JavaConnect.connectdb(); 
         User_Load();
     }
     

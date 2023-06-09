@@ -21,11 +21,10 @@ public class Subject extends javax.swing.JFrame
     public Subject() 
     {
         initComponents();
-        JavaConnect.connectdb();
         Subject_Load();
     }
 
-    Connection conn = JavaConnect.connectdb();
+    Connection conn;
     PreparedStatement pst;
     ResultSet rs;
     DefaultTableModel dtm;
